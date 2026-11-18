@@ -17,6 +17,8 @@ const SHOWS = [
   { date: "2026-11-19", venue: "Nablijfklub, Kantine", city: "Utrecht", tickets: "https://broedutrecht.nl/event/nablijf-klup-broed-editie/?utm_source=ig&utm_medium=social&utm_content=link_in_bios"},
   { date: "2027-02-05", venue: "Tivoli Vredeburg",      city: "Utrecht", tickets: "https://www.tivolivredenburg.nl/agenda/88615750/broos-05-02-2027", soldOut: true },
   { date: "2027-01-17", venue: "Cafe Averechts", city: "Utrecht" },
+  { date: "2027-06-05", venue: "Moira ft. Sophie Josephine ", city: "Utrecht" },
+  { date: "2027-06-11", venue: "Luxor", city: "Arnhem"},
   
   // Example of an upcoming show:
   // { date: "2027-01-20", venue: "Some Venue", city: "Amsterdam", tickets: "http://..." },
