@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BROOS: dans je er doorheen</title>
+  <meta name="description" content="BROOS is een band die pop, funk, jazz en EDM door elkaar husselt. Catchy, zweterig, soms een beetje duister. Luister, kom kijken, boek ons.">
+
+  <!-- What shows up when someone shares the link (WhatsApp, Instagram, ...) -->
+  <meta property="og:title" content="BROOS">
+  <meta property="og:description" content="Pop / funk / jazz / EDM. Dans je een weg door deze rotwereld.">
+  <meta property="og:image" content="img/hero-2.jpg">
+
+  <link rel="icon" href="img/favicon.png?v=2">
+
+  <!-- Fonts from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <header class="nav">
+    <a href="#top" class="nav__logo">BROOS</a>
+    <nav>
+      <a href="#music">Muziek</a>
+      <a href="#band">Band</a>
+      <a href="#live">Shows</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <img class="hero__bg" src="img/hero-2.jpg" alt="BROOS live op het podium voor een vol café">
+      <div class="hero__content">
+        <img class="hero__logo" src="img/logo-diamond.png" alt="BROOS logo">
+        <p class="hero__tagline">Dans je een weg door de puinhoop van vandaag.</p>
+        <div class="hero__buttons">
+          <a class="btn btn--blue" href="#music">Luister</a>
+          <a class="btn btn--outline" href="#contact">Boek ons</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MARQUEE STRIP ===================== -->
+    <!-- The text is duplicated so the scrolling loop looks seamless -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>pop ✦ funk ✦ jazz ✦ edm ✦ een beetje rock ✦ levensvragen ✦ liefde ✦ zweet ✦ </span>
+        <span>pop ✦ funk ✦ jazz ✦ edm ✦ een beetje rock ✦ levensvragen ✦ liefde ✦ zweet ✦ </span>
+      </div>
+    </div>
+
+    <!-- ===================== MUSIC (bright side) ===================== -->
+    <section id="music" class="section section--bright">
+      <div class="container">
+        <h2 class="title">Muziek</h2>
+        <p class="lead">Stream onze nieuwste single!</p>
+
+        <div class="music">
+          <!-- Spotify's official embed player for your artist page -->
+          <iframe class="music__player"
+            src="https://open.spotify.com/embed/artist/0oiVr79iOP4RkkBZZbMYUB?utm_source=generator&theme=0"
+            height="452" frameborder="0" loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            title="BROOS op Spotify"></iframe>
+
+          <div class="releases">
+            <!-- TODO: point each href at the song's own Spotify link -->
+            <a class="release" href="https://open.spotify.com/artist/0oiVr79iOP4RkkBZZbMYUB" target="_blank" rel="noopener">
+              <img src="img/releases/clouds.jpg" alt="Hoes van de single Clouds">
+              <span>Clouds</span>
+            </a>
+            <a class="release release--tilt" href="https://open.spotify.com/artist/0oiVr79iOP4RkkBZZbMYUB" target="_blank" rel="noopener">
+              <img src="img/releases/zilte-zee.jpg" alt="Hoes van de single Zilte Zee">
+              <span>Zilte Zee</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section class="section section--sky">
+      <div class="container about">
+        <img class="about__photo" src="img/band-group.jpg" alt="De bandleden van BROOS voor een vrachtwagen">
+        <div class="about__text">
+          <h2 class="title">Wie is BROOS?</h2>
+          <!-- TODO: rewrite this bio in your own words -->
+          <p>BROOS is wat je krijgt als je zeven muzikanten in een blender gooit en hoopt op het beste.  
+            Wij maken het leven behapbaar door kwetsbaar te durven zijn en leren jullie en onszelf hoe je blijft dansen als de wereld een puinhoop is.</p>
+          <p>Verwacht catchy pophooks op funky grooves, jazzy blazerslijnen en breekbare teksten. </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BAND MEMBERS (dark side) ===================== -->
+    <!-- Hovering over (or tapping) a card swaps the portrait for a live photo
+         and slides up the short introduction in <p class="member__bio">.
+         tabindex="0" makes the cards tappable on phones and reachable by keyboard. -->
+    <section id="band" class="section section--dark">
+      <div class="container">
+        <h2 class="title">De band</h2>
+        <div class="members">
+          <figure class="member" tabindex="0">
+            <div class="member__img">
+              <img src="img/band/roos-live.jpg" alt="Roos">
+              <img src="img/live/roos-3.jpg" alt="" class="member__live">
+              <p class="member__bio"> Ondernemend, zorgzaam, en een stem waar je U tegen zegt. Zonder ROOS geen BROOS <3 </p>
+            </div>
+            <figcaption>Roos <span>zang</span></figcaption>
+          </figure>
+          <figure class="member" tabindex="0">
+            <div class="member__img">
+              <img src="img/band/pep.jpg" alt="Pep">
+              <img src="img/band/pep-live.jpg" alt="" class="member__live">
+              <p class="member__bio">pas op voor deze goon.</p>
+            </div>
+            <figcaption>Pepijn <span>toetsen</span></figcaption>
+          </figure>
+          <figure class="member" tabindex="0">
+            <div class="member__img">
+              <img src="img/band/stan.jpg" alt="Stan">
+              <img src="img/band/stan-live.jpg" alt="" class="member__live">
+              <p class="member__bio">Anarachist en anti-alles.</p>
+            </div>
+            <figcaption>Stan <span>gitaar</span></figcaption>
+          </figure>
+          <figure class="member" tabindex="0">
+            <div class="member__img">
+              <img src="img/band/stephan.jpg" alt="Stephan">
+              <img src="img/band/stephan-live.jpg" alt="" class="member__live">
+              <p class="member__bio">Stijl-icoon, ultra-rijder en moppentapper. </p>
+            </div>
+            <figcaption>Stephan <span>trombone</span></figcaption>
+          </figure>
+          <figure class="member" tabindex="0">
+            <div class="member__img">
+              <img src="img/band/arvid.jpg" alt="Arvid">
+              <img src="img/band/arvid-live.jpg" alt="" class="member__live">
+              <p class="member__bio">Multi-instrumentalist, spelletjesfanaat en betrouwbaar als een metronoom.</p>
+            </div>
+            <figcaption>Arvid <span>drums</span></figcaption>
+          </figure>
+          <figure class="member" tabindex="0">
+            <div class="member__img">
+              <img src="img/band/ewout.jpg" alt="Ewout">
+              <img src="img/band/ewout-live.jpg" alt="" class="member__live">
+              <p class="member__bio">"Je hebt het pas door als hij er niet is"</p>
+            </div>
+            <figcaption>Ewout <span>bas</span></figcaption>
+          </figure>
+          <figure class="member" tabindex="0">
+            <div class="member__img">
+              <img src="img/band/felix.jpg" alt="Felix">
+              <img src="img/band/felix-live.jpg" alt="" class="member__live">
+              <p class="member__bio">"Altijd op en onder zoals Ra."</p>
+            </div>
+            <figcaption>Felix <span>trompet</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== LIVE ===================== -->
+    <section id="live" class="section section--red">
+      <div class="container">
+        <h2 class="title">Komende shows</h2>
+
+        <!-- Filled in by js/main.js. Edit the SHOWS list there.
+             Shows whose date has passed are hidden automatically. -->
+        <ul id="shows-upcoming" class="show-list shows"></ul>
+
+        <!-- Photo wall. Click a photo to view it bigger.
+             Each row = one wide (landscape, class="wide") + one tall (portrait) photo.
+             Keep that alternation when adding photos so the grid stays tidy. -->
+        <div class="gallery">
+          <img class="wide" src="img/live/usbb-045.jpg" alt="De hele band op het podium met publiek" loading="lazy">
+          <img src="img/live/rsf-9103.jpg" alt="Roos zingt in een rode jurk" loading="lazy">
+
+          <img src="img/live/usbb-042.jpg" alt="Stan op gitaar" loading="lazy">
+          <img class="wide" src="img/live/usbb-036.jpg" alt="Blazers en zang op USBB Festival" loading="lazy">
+
+          <img class="wide" src="img/live/usbb-blazers.jpg" alt="Trombone en trompet voor een gele muur terwijl Roos zingt" loading="lazy">
+          <img src="img/live/rsf-9107.jpg" alt="Pep op toetsen in paars licht" loading="lazy">
+
+          <img src="img/live/roos-3.jpg" alt="Roos zingt" loading="lazy">
+          <img class="wide" src="img/live/usbb-033.jpg" alt="Trombone en trompet" loading="lazy">
+
+          <img class="wide" src="img/live/usbb-038.jpg" alt="De blazerssectie" loading="lazy">
+          <img src="img/live/rsf-9105.jpg" alt="Trompetsolo" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="section section--blue">
+      <div class="container contact">
+        <h2 class="title">Boek BROOS</h2>
+        <p class="lead">Festivals, podia, feesten, verjaardagen, bingoclubs: als er een dansvloer is, krijgen wij 'm vol.</p>
+        <a class="contact__mail" href="mailto:broos.deband@gmail.com">broos.deband@gmail.com</a>
+        <div class="contact__links">
+          <a class="btn btn--red" href="https://www.instagram.com/broos.deband/" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn btn--red" href="https://open.spotify.com/artist/0oiVr79iOP4RkkBZZbMYUB" target="_blank" rel="noopener">Spotify</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="img/logo-square.png" alt="" width="56" height="56">
+    <p>© <span id="year"></span> BROOS. Blijf dansen.</p>
+  </footer>
+
+  <!-- Lightbox: the big photo viewer used by the gallery -->
+  <dialog id="lightbox" class="lightbox">
+    <img src="" alt="">
+    <button aria-label="Sluiten">✕</button>
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
