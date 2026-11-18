@@ -7,7 +7,8 @@
 // Dates are written as "YYYY-MM-DD". Only shows from today onwards are
 // shown; once a date has passed the show disappears from the site by itself
 // (no need to delete it here, though you can to keep the list short).
-// `tickets` is optional: leave it out (or "") if there's no link.
+// `tickets` is optional: leave it out (or "") if there's no link. A show
+// without a ticket link is treated as free and shows a "Gratis" label.
 // `soldOut: true` shows a "Sold out" stamp instead of the ticket button.
 
 const SHOWS = [
@@ -33,11 +34,13 @@ function formatDate(iso) {
 }
 
 function showToHTML(show) {
-  let tickets = "<span></span>";
+  let tickets;
   if (show.soldOut) {
     tickets = `<span class="sold-out">Uitverkocht</span>`;
   } else if (show.tickets) {
     tickets = `<a class="tickets" href="${show.tickets}" target="_blank" rel="noopener">Tickets</a>`;
+  } else {
+    tickets = `<span class="free">Gratis</span>`;
   }
   return `<li class="${show.soldOut ? "is-sold-out" : ""}">
       <span class="date">${formatDate(show.date)}</span>

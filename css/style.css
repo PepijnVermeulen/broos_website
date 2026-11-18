@@ -296,6 +296,11 @@ body::after {
   background: var(--blue); color: var(--red);
   padding: 4px 12px; border-radius: 999px; text-decoration: none;
 }
+/* "Free" label: plain text, no button shape */
+.show-list .free {
+  font-family: var(--font-display); text-transform: uppercase;
+  color: var(--blue);
+}
 
 /* "Sold out" stamp: tilted, like it was slapped on with a rubber stamp */
 .show-list .sold-out {
