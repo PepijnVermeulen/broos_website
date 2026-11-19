@@ -185,11 +185,12 @@ body::after {
 .section--bright .title { color: var(--red); }
 .section--dark .title   { color: var(--blue); }
 .section--red .title    { color: var(--blue); }
-/* The hard offset shadow is saved for the most important heading: the shows */
 /* Hard offset shadow on every big heading: black on light backgrounds,
-   red on the dark ones */
-.section--bright .title, .section--red .title, .section--blue .title { text-shadow: 5px 5px 0 var(--ink); }
-.section--dark .title { text-shadow: 5px 5px 0 var(--red); }
+   red on the dark ones. The offset scales with the text size (5px on a
+   laptop, about 2px on a phone) so small headings stay crisp and readable. */
+.title { --shadow-offset: clamp(2px, .045em, 5px); }
+.section--bright .title, .section--red .title, .section--blue .title { text-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink); }
+.section--dark .title { text-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--red); }
 .lead { font-size: 1.1rem; max-width: 55ch; margin-bottom: 40px; }
 
 /* ---------- Shows (gig calendar) ---------- */
