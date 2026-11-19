@@ -1,7 +1,7 @@
 /* =========================================================
    BROOS: stylesheet
-   Colors are defined once here as "variables" and reused
-   everywhere, so you can restyle the whole site from this block.
+   Colors and the font are defined once here as "variables" and
+   reused everywhere, so you can restyle the whole site from this block.
    ========================================================= */
 :root {
   --red:    #8e0b0b;   /* deep red from the sticker */
@@ -10,10 +10,10 @@
   --ink:    #0e0b0b;   /* almost-black */
   --cream:  #f3ead8;   /* warm paper white */
   --yellow: #f1c84b;   /* sunny accent */
+  --frame: 3px solid var(--blue);   /* the thin blue outline around photos */
 
-  --font-display: "Anton", Impact, sans-serif;
-  --font-body: "Space Mono", ui-monospace, monospace;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  --font: "Lilita One", Impact, sans-serif;            /* headings, venues, menu, news strip */
+  --font-body: "Space Mono", ui-monospace, monospace;   /* running text and small labels */
 }
 
 /* ---------- Basics ---------- */
@@ -29,7 +29,7 @@ body {
 }
 img { display: block; max-width: 100%; }
 a { color: inherit; }
-em { font-family: var(--font-serif); font-style: italic; font-size: 1.15em; }
+em, i { font-style: normal; }   /* no italics anywhere */
 
 /* Film grain over the whole page: the "gritty" part.
    It's generated noise (an SVG filter), so no image file is needed. */
@@ -48,44 +48,68 @@ body::after {
 .nav {
   position: fixed; top: 0; left: 0; right: 0;
   z-index: 50;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 20px;
-  background: linear-gradient(var(--ink), transparent);
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 12px clamp(12px, 3vw, 28px);
+  background: linear-gradient(rgba(14,11,11,.85), transparent);
+  border-bottom: 3px solid transparent;
+  transition: background .25s, padding .25s, border-color .25s;
+}
+/* Once you scroll, the bar turns solid so the menu stays readable */
+.nav.is-scrolled {
+  background: var(--ink);
+  border-bottom-color: var(--red);
+  padding-block: 8px;
 }
 .nav__logo {
-  font-family: var(--font-display);
-  font-size: 1.6rem; letter-spacing: .04em;
+  font-family: var(--font);
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.6rem; letter-spacing: .04em; line-height: 1;
   text-decoration: none; color: var(--blue);
 }
-.nav nav { display: flex; gap: clamp(12px, 3vw, 28px); }
+.nav__logo img { width: 40px; height: 40px; transition: transform .3s; }
+.nav__logo:hover img { transform: rotate(-12deg); }
+.nav nav { display: flex; align-items: center; gap: clamp(2px, 1.2vw, 12px); }
 .nav nav a {
-  text-decoration: none; text-transform: uppercase;
-  font-size: .8rem; font-weight: 700; letter-spacing: .1em;
+  font-family: var(--font);
+  position: relative;
+  padding: 6px 10px;
+  font-size: clamp(1rem, 1.8vw, 1.3rem); letter-spacing: .05em; line-height: 1;
+  text-transform: uppercase; text-decoration: none; white-space: nowrap;
+  color: var(--cream);
 }
-.nav nav a:hover { color: var(--blue); }
+/* Underline that grows in on hover and marks the section you're in */
+.nav nav a::after {
+  content: ""; position: absolute; left: 10px; right: 10px; bottom: 0;
+  height: 3px; background: var(--blue);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .2s;
+}
+.nav nav a:hover, .nav nav a.is-active { color: var(--blue); }
+.nav nav a:hover::after, .nav nav a.is-active::after { transform: scaleX(1); }
+/* "Boek ons": red letters with a thin blue outline */
+.nav nav a.nav__cta {
+  color: var(--red-hot);
+  -webkit-text-stroke: 3px var(--blue);
+  paint-order: stroke fill;   /* outline drawn behind the letters, so they stay bold */
+  transition: color .2s;
+}
+.nav nav a.nav__cta:hover { color: var(--blue); -webkit-text-stroke-color: var(--red-hot); }
+.nav nav a.nav__cta::after { display: none; }
+.nav a:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
 
-/* ---------- Buttons ---------- */
-.btn {
-  display: inline-block;
-  padding: .8em 1.6em;
-  font-family: var(--font-display);
-  font-size: 1.2rem; letter-spacing: .06em; text-transform: uppercase;
-  text-decoration: none;
-  border: 3px solid var(--ink);
-  border-radius: 999px;
-  box-shadow: 5px 5px 0 var(--ink);
-  transition: transform .15s, box-shadow .15s;
-}
-.btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
-.btn--blue { background: var(--blue); color: var(--red); }
-.btn--red  { background: var(--red);  color: var(--blue); }
-.btn--outline { color: var(--cream); border-color: var(--cream); box-shadow: 5px 5px 0 var(--red-hot); }
-.btn--outline:hover { box-shadow: 7px 7px 0 var(--red-hot); }
+/* Instagram / Spotify icons (menu and contact section) */
+.socials { display: flex; align-items: center; gap: 2px; }
+.nav nav .icon { padding: 6px; }
+.nav nav .icon::after { display: none; }
+.icon { display: inline-flex; color: var(--blue); transition: transform .2s, color .2s; }
+.icon svg { width: 24px; height: 24px; }
+.icon:hover { transform: rotate(-8deg) scale(1.12); color: var(--cream); }
 
 /* ---------- Hero ---------- */
+/* A bit shorter than the screen so the news strip is visible right away */
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: calc(100svh - 80px);
   display: grid; place-items: center;
   overflow: hidden;
   isolation: isolate;
@@ -105,7 +129,7 @@ body::after {
     radial-gradient(ellipse at center, rgba(14,11,11,.25), rgba(14,11,11,.85) 75%),
     linear-gradient(transparent 60%, var(--ink));
 }
-.hero__content { text-align: center; padding: 100px 16px 60px; }
+.hero__content { text-align: center; padding: 90px 16px 40px; }
 .hero__logo {
   width: min(380px, 70vw);
   margin: 0 auto;
@@ -117,35 +141,30 @@ body::after {
   0%, 100% { transform: rotate(-4deg) scale(1); }
   50%      { transform: rotate(3deg)  scale(1.03); }
 }
-.hero__tagline {
-  margin: 28px 0 32px;
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 4.5vw, 3rem);
-  line-height: 1.1;
-  text-transform: uppercase;
-  text-shadow: 3px 3px 0 var(--red);
-}
-.hero__tagline em { text-transform: none; color: var(--blue); text-shadow: none; }
-.hero__buttons { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
 
-/* ---------- Marquee strip ---------- */
+/* ---------- News strip ---------- */
 .marquee {
   background: var(--red);
   color: var(--blue);
   border-block: 4px solid var(--ink);
   transform: rotate(-1.5deg);
-  margin: -20px -10px 0;
+  margin: -14px -10px 0;
   position: relative; z-index: 2;
   overflow: hidden;
   white-space: nowrap;
 }
-.marquee__track { display: inline-flex; animation: scroll 30s linear infinite; }
-.marquee span {
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  text-transform: uppercase;
-  padding: 10px 0;
+.marquee__track { display: flex; width: max-content; animation: scroll 30s linear infinite; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__group { display: flex; flex-shrink: 0; }
+.marquee a, .marquee span {
+  font-family: var(--font);
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  text-transform: uppercase; line-height: 1.2;
+  padding: 8px 0;
+  text-decoration: none; white-space: nowrap;
 }
+.marquee a:hover { color: var(--cream); }
+.marquee .marquee__star { padding-inline: .7em; color: var(--cream); }
 @keyframes scroll { to { transform: translateX(-50%); } }
 
 /* ---------- Sections ---------- */
@@ -154,158 +173,112 @@ body::after {
 .section--dark   { background: var(--ink); }
 .section--red    { background: var(--red); }
 .section--blue   { background: var(--blue); color: var(--red); }
-.section--sky {
-  color: var(--ink);
-  background:
-    linear-gradient(rgba(243,234,216,.55), rgba(243,234,216,.85)),
-    url("../img/sky.jpg") center / cover;
-}
 
 .title {
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 11vw, 8rem);
-  line-height: .9;
+  font-family: var(--font);
+  font-size: clamp(3rem, 10vw, 7rem);
+  line-height: .95;
   text-transform: uppercase;
   margin-bottom: .3em;
 }
-.section--bright .title { color: var(--red); text-shadow: 5px 5px 0 var(--ink); }
-.section--dark .title   { color: var(--blue); text-shadow: 5px 5px 0 var(--red); }
-.section--red .title    { color: var(--blue); text-shadow: 5px 5px 0 var(--ink); }
-.section--sky .title    { color: var(--red); }
-.subtitle {
-  font-family: var(--font-display);
-  font-size: 1.8rem; text-transform: uppercase;
-  margin-bottom: 12px;
-}
+.title--small { font-size: clamp(2.2rem, 6vw, 4rem); }
+.section--bright .title { color: var(--red); }
+.section--dark .title   { color: var(--blue); }
+.section--red .title    { color: var(--blue); }
+/* The hard offset shadow is saved for the most important heading: the shows */
+/* Hard offset shadow on every big heading: black on light backgrounds,
+   red on the dark ones */
+.section--bright .title, .section--red .title, .section--blue .title { text-shadow: 5px 5px 0 var(--ink); }
+.section--dark .title { text-shadow: 5px 5px 0 var(--red); }
 .lead { font-size: 1.1rem; max-width: 55ch; margin-bottom: 40px; }
 
-/* ---------- Music ---------- */
-.music {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 48px;
-  align-items: center;
-}
-.music__player {
-  width: 100%;
-  border-radius: 14px;
-  border: 4px solid var(--ink);
-  box-shadow: 10px 10px 0 var(--red);
-}
-.releases { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.release {
-  text-decoration: none;
-  background: var(--cream);
-  padding: 10px 10px 4px;
-  border: 3px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--ink);
-  transform: rotate(3deg);
-  transition: transform .2s;
-}
-.release--tilt { transform: rotate(-4deg) translateY(30px); }
-.release:hover { transform: rotate(0) scale(1.05); }
-.release img { aspect-ratio: 2 / 3; object-fit: cover; width: 100%; }
-.release span {
-  display: block; text-align: center;
-  font-family: var(--font-serif); font-style: italic; font-size: 1.4rem;
-}
-
-/* ---------- About ---------- */
-.about {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 56px; align-items: center;
-}
-.about__photo {
-  border: 4px solid var(--ink);
-  box-shadow: -12px 12px 0 var(--red);
-  transform: rotate(-2deg);
-  max-height: 640px; width: 100%; object-fit: cover;
-}
-.about__text p { font-size: 1.05rem; margin-bottom: 1em; max-width: 52ch; }
-
-/* ---------- Band members ---------- */
-.members {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 22px;
-}
-.member__img {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border: 3px solid var(--blue);
-}
-.member__img img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
-  transition: opacity .35s, transform .5s;
-}
-.member { cursor: pointer; outline: none; }
-.member__live { opacity: 0; }
-.member:hover .member__live,
-.member:focus .member__live { opacity: 1; }
-.member:hover .member__img img,
-.member:focus .member__img img { transform: scale(1.05); }
-.member:focus-visible .member__img { outline: 3px solid var(--yellow); outline-offset: 3px; }
-
-/* Introduction text: hidden below the photo, slides up on hover/tap */
-.member__bio {
-  position: absolute; left: 0; right: 0; bottom: 0;
+/* ---------- Shows (gig calendar) ---------- */
+/* The red panel's top edge runs at the same angle as the news strip
+   (-1.5deg) and tucks just underneath it, so the two connect. */
+.section--shows {
+  --slant: calc(100vw * 0.02619);   /* tan(1.5deg): height difference across the screen */
   z-index: 1;
-  padding: 48px 14px 14px;
-  font-size: .85rem; line-height: 1.45;
-  color: var(--cream);
-  background: linear-gradient(transparent, rgba(14,11,11,.85) 30%, rgba(142,11,11,.95));
-  transform: translateY(101%);
-  transition: transform .35s ease;
+  margin-top: calc(var(--slant) / -2 - 20px);
+  padding-top: calc(clamp(70px, 10vw, 130px) + var(--slant) / 2 + 20px);
+  clip-path: polygon(0 var(--slant), 100% 0, 100% 100%, 0 100%);
 }
-.member:hover .member__bio,
-.member:focus .member__bio { transform: translateY(0); }
-.member:nth-child(odd)  { transform: rotate(-1.2deg); }
-.member:nth-child(even) { transform: rotate(1.2deg) translateY(14px); }
-.member figcaption {
-  margin-top: 10px;
-  font-family: var(--font-display);
-  font-size: 1.7rem; text-transform: uppercase; line-height: 1;
-}
-.member figcaption span {
-  display: block;
-  font-family: var(--font-body); font-size: .8rem;
-  text-transform: lowercase; color: var(--blue); margin-top: 4px;
-}
-
-/* ---------- Live: shows + gallery ---------- */
-.shows {
-  max-width: 820px;          /* same width as the photo grid below */
-  margin: 0 auto 60px;
-}
+.shows { max-width: 1100px; margin: 0 auto; }
 .show-list { list-style: none; }
 .show-list li {
   display: grid;
-  grid-template-columns: 5.5em 1fr auto;
-  gap: 14px; align-items: center;
-  padding: 14px 0;
+  grid-template-columns: 6.5em 1fr 9em 8em;
+  gap: 18px 32px; align-items: center;
+  padding: 16px 0;
   border-bottom: 2px dashed rgba(181,207,248,.4);
 }
-.show-list .date { font-family: var(--font-display); font-size: 1.3rem; color: var(--blue); line-height: 1.1; }
-.show-list .where { font-weight: 700; }
-.show-list .city { display: block; font-weight: 400; opacity: .75; font-size: .9rem; }
+.show-list .date { display: flex; flex-direction: column; line-height: 1.1; color: var(--blue); }
+.date__day  { font-size: .75rem; font-weight: 700; letter-spacing: .15em; opacity: .8; }
+.date__num  { font-family: var(--font); font-size: 1.5rem; text-transform: uppercase; }
+.date__year { font-size: .75rem; opacity: .7; }
+.show-list .where { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.show-list .venue { font-family: var(--font); font-size: 1.45rem; line-height: 1.1; text-transform: uppercase; }
+.show-list .meta  { font-size: .9rem; opacity: .8; }
+/* Support acts: "+ Name", in blue so they read as "also on the bill" */
+.show-list .support { font-family: var(--font); font-size: 1.05rem; color: var(--blue); }
+.show-list .soon {
+  align-self: flex-start;
+  font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  background: var(--yellow); color: var(--ink);
+  padding: 1px 8px; margin-bottom: 4px;
+}
+/* Only acoustic shows get a label; full-band shows leave this cell empty */
+.show-list .type {
+  font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  white-space: nowrap;
+  opacity: .85;
+}
+/* Tickets: no button shape. On hover a blue block wipes in behind the
+   word, the text flips to red and the arrow shoots off to the right. */
 .show-list .tickets {
-  font-family: var(--font-display); text-transform: uppercase;
-  background: var(--blue); color: var(--red);
-  padding: 4px 12px; border-radius: 999px; text-decoration: none;
+  font-family: var(--font);
+  justify-self: end;
+  position: relative; isolation: isolate;
+  display: inline-flex; align-items: center; gap: .35em;
+  padding: 4px 6px;
+  font-size: 1.35rem; line-height: 1; text-transform: uppercase;
+  color: var(--blue); text-decoration: none;
+  border-bottom: 3px solid var(--blue);
+  transition: color .2s;
 }
-/* "Free" label: plain text, no button shape */
+.show-list .tickets::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--blue);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .25s cubic-bezier(.7, 0, .3, 1);
+}
+.show-list .tickets .arrow { display: inline-block; }
+.show-list .tickets:hover, .show-list .tickets:focus-visible { color: var(--red); }
+.show-list .tickets:hover::before, .show-list .tickets:focus-visible::before { transform: scaleX(1); }
+.show-list .tickets:hover .arrow, .show-list .tickets:focus-visible .arrow { animation: shoot .6s ease-in-out infinite; }
+@keyframes shoot {
+  0%   { transform: translateX(0); }
+  45%  { transform: translateX(8px); opacity: 0; }
+  50%  { transform: translateX(-8px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
 .show-list .free {
-  font-family: var(--font-display); text-transform: uppercase;
-  color: var(--blue);
+  font-family: var(--font);
+  justify-self: end;
+  font-size: 1.35rem; text-transform: uppercase;
+  color: var(--blue); padding-inline: 6px;
 }
-
+/* Ticket sale not started yet: same look as "Gratis", but dimmed */
+.show-list .tba {
+  font-family: var(--font);
+  justify-self: end;
+  font-size: 1.1rem; text-transform: uppercase; white-space: nowrap;
+  color: var(--blue); opacity: .6; padding-inline: 6px;
+}
 /* "Sold out" stamp: tilted, like it was slapped on with a rubber stamp */
 .show-list .sold-out {
-  font-family: var(--font-display); text-transform: uppercase;
-  letter-spacing: .05em;
+  font-family: var(--font);
+  justify-self: end;
+  font-size: 1.1rem; letter-spacing: .05em; text-transform: uppercase;
   color: var(--yellow);
   border: 3px solid var(--yellow);
   padding: 2px 10px;
@@ -314,53 +287,160 @@ body::after {
 }
 .show-list .empty { display: block; border: 0; }
 
-/* Photo wall: a tidy grid. Wide (landscape) photos span 2 columns, tall ones 1,
-   so every row is exactly one wide + one tall photo of equal height. */
-.gallery {
+/* Past shows: folded away, small and quiet */
+.past-shows { max-width: 1100px; margin: 36px auto 0; font-size: .85rem; }
+.past-shows summary {
+  cursor: pointer; width: fit-content;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  opacity: .75;
+}
+.past-shows summary:hover, .past-shows[open] summary { opacity: 1; }
+.past-shows ul { list-style: none; margin-top: 12px; opacity: .75; columns: 2 260px; column-gap: 32px; }
+.past-shows li { display: flex; gap: 12px; padding: 3px 0; break-inside: avoid; }
+.past__date { flex: 0 0 7.5em; opacity: .8; }
+.past__extra { opacity: .7; }
+
+/* ---------- Music ---------- */
+.music {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  max-width: 820px;   /* keeps the photos compact; raise this for bigger photos */
-  margin-inline: auto;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 48px;
+  align-items: center;
+}
+.music .lead { margin-bottom: 0; }
+.music__player { width: 100%; border-radius: 14px; border: 4px solid var(--ink); }
+
+/* ---------- Wie is BROOS (bio + members) ---------- */
+.about {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 56px; align-items: center;
+  margin-bottom: clamp(50px, 7vw, 90px);
+}
+.about__text p { font-size: 1.05rem; margin-bottom: 1em; max-width: 50ch; }
+/* Group photo as a tilted polaroid */
+.polaroid {
+  background: var(--cream);
+  padding: 12px 12px 56px; /* thicker bottom edge, like a real polaroid */
+  transform: rotate(-2.5deg);
+  box-shadow: 0 14px 34px rgba(0,0,0,.55);
+  transition: transform .3s;
+}
+.polaroid:hover { transform: rotate(-1deg) scale(1.01); }
+.polaroid img { width: 100%; max-height: 480px; object-fit: cover; border: var(--frame); }
+
+.members__label {
+  font-family: var(--font);
+  font-size: 1.4rem; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--blue); margin-bottom: 18px;
+}
+/* Four per row on a laptop (4 + 3, the last row centered) */
+.members {
+  --cols: 4; --gap: 22px;
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 28px var(--gap);
+}
+.member { flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols)); }
+.member { cursor: pointer; outline: none; }
+/* Slightly tilted portraits for a more playful look; they straighten on hover/tap */
+.member { transform: rotate(var(--tilt, 0deg)); transition: transform .35s ease; }
+.member:nth-child(4n+1) { --tilt: -2deg; }
+.member:nth-child(4n+2) { --tilt: 1.5deg; }
+.member:nth-child(4n+3) { --tilt: -1deg; }
+.member:nth-child(4n+4) { --tilt: 2.5deg; }
+.member:hover,
+.member:focus { transform: rotate(0deg) scale(1.03); }
+.member__img {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: var(--frame);
+}
+.member__img img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  transition: opacity .35s, transform .5s;
+}
+.member__live { opacity: 0; }
+.member:hover .member__live,
+.member:focus .member__live { opacity: 1; }
+.member:hover .member__img img,
+.member:focus .member__img img { transform: scale(1.05); }
+.member:focus-visible .member__img { outline: 3px solid var(--yellow); outline-offset: 3px; }
+/* Introduction text: hidden below the photo, slides up on hover/tap */
+.member__bio {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  z-index: 1;
+  padding: 40px 10px 10px;
+  font-size: .85rem; line-height: 1.35;
+  background: linear-gradient(transparent, rgba(14,11,11,.85) 30%, rgba(142,11,11,.95));
+  transform: translateY(101%);
+  transition: transform .35s ease;
+}
+.member:hover .member__bio,
+.member:focus .member__bio { transform: translateY(0); }
+.member figcaption {
+  font-family: var(--font);
+  margin-top: 8px;
+  font-size: 1.7rem; text-transform: uppercase; line-height: 1;
+}
+.member figcaption span {
+  display: block;
+  font-family: var(--font-body); font-size: .8rem;
+  text-transform: lowercase; color: var(--blue); margin-top: 4px;
+}
+
+/* ---------- Photo wall ---------- */
+/* Rows of photos at equal height that fill the full width. Each photo grows
+   in proportion to its shape (--r = width / height, set in the HTML). */
+.section--photos { padding-top: 0; }
+.section--photos .title { text-align: center; }
+.gallery {
+  display: flex; flex-wrap: wrap;
+  gap: 10px;
+  --row: 230px;        /* rough row height; raise for bigger photos */
 }
 .gallery img {
-  width: 100%; height: 100%;
-  aspect-ratio: 3 / 4;
+  flex: var(--r) 1 calc(var(--r) * var(--row));
+  aspect-ratio: var(--r);
+  width: 100%; height: auto;
   object-fit: cover;
-  border: 3px solid var(--ink);
+  border: var(--frame);
   cursor: zoom-in;
   filter: saturate(1.15);
-  transition: transform .2s, filter .2s;
+  transition: filter .2s;
 }
-.gallery img.wide { grid-column: span 2; aspect-ratio: auto; }
-@media (max-width: 600px) {
-  .gallery { grid-template-columns: 1fr; }
-  .gallery img, .gallery img.wide { grid-column: auto; aspect-ratio: auto; height: auto; }
-}
-.gallery img:hover { transform: scale(1.02) rotate(-.6deg); filter: saturate(1.4); }
+.gallery::after { content: ""; flex: 9999 1 0; }   /* keeps the last row from stretching */
+.gallery img:hover { filter: saturate(1.4) brightness(1.08); }
 
 /* ---------- Contact ---------- */
 .contact { text-align: center; }
-.contact .title { color: var(--red); text-shadow: 5px 5px 0 var(--ink); }
+.contact .title { color: var(--red); }
 .contact .lead { margin-inline: auto; color: var(--ink); }
 .contact__mail {
+  font-family: var(--font);
   display: inline-block;
-  font-family: var(--font-display);
   font-size: clamp(1.4rem, 5.5vw, 3.6rem);
   word-break: break-all;
   text-decoration: none;
   border-bottom: 5px solid currentColor;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
 }
 .contact__mail:hover { color: var(--ink); }
-.contact__links { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.contact__links { display: flex; gap: 24px; justify-content: center; }
+.contact__links .icon { color: var(--red); }
+.contact__links .icon:hover { color: var(--ink); }
+.contact__links .icon svg { width: 48px; height: 48px; }
 
 /* ---------- Footer ---------- */
 .footer {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 14px;
   padding: 32px 16px;
-  font-size: .85rem;
+  font-size: .9rem;
 }
+.footer__press { flex-basis: 100%; text-align: center; font-size: .8rem; opacity: .6; }
+.footer__press:hover { opacity: 1; }
+.footer__press a { color: var(--blue); }
 
 /* ---------- Lightbox ---------- */
 .lightbox {
@@ -376,14 +456,34 @@ body::after {
   font-size: 1.2rem; cursor: pointer;
 }
 
-/* ---------- Mobile tweaks ---------- */
+/* ---------- Smaller screens ---------- */
 @media (max-width: 800px) {
   .music, .about { grid-template-columns: 1fr; }
-  .release--tilt { transform: rotate(-4deg); }
-  .members { grid-template-columns: 1fr 1fr; gap: 16px; }
-  .member figcaption { font-size: 1.3rem; }
-  .nav__logo { font-size: 1.3rem; }
-  .nav nav a { font-size: .7rem; }
+  .members { --cols: 3; --gap: 14px; }
+  .member figcaption { font-size: 1.15rem; }
+  .polaroid { max-width: 520px; margin-inline: auto; }
+  .gallery { --row: 150px; gap: 6px; }
+}
+@media (max-width: 640px) {
+  .nav__logo span { display: none; }   /* just the diamond on small screens */
+  .nav__logo img { width: 34px; height: 34px; }
+  .nav nav a { padding: 6px 6px; font-size: 1rem; }
+  .nav nav a::after { left: 6px; right: 6px; }
+  .icon svg { width: 21px; height: 21px; }
+  .nav nav .icon { padding: 4px; }
+  /* Show rows stack: date | venue on top, type + tickets below */
+  .show-list li { grid-template-columns: 4.8em 1fr; gap: 8px 14px; align-items: start; }
+  .show-list .date { grid-row: span 2; }
+  .show-list .type { grid-column: 2; grid-row: 2; justify-self: start; align-self: center; }
+  .show-list .tickets, .show-list .free, .show-list .tba, .show-list .sold-out { grid-column: 2; grid-row: 2; justify-self: end; align-self: center; }
+  .past__date { flex-basis: 6.5em; }
+  .members { --cols: 2; }
+}
+/* Phones: drop the small logo so the whole menu fits (the big logo is right below) */
+@media (max-width: 430px) {
+  .nav__logo { display: none; }
+  .nav { justify-content: center; }
+  .nav nav a { padding-inline: 5px; font-size: .95rem; }
 }
 
 /* Respect people who turned off animations in their OS */
