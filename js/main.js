@@ -23,7 +23,8 @@ const SHOWS = [
   { date: "2026-11-19", time: "21:30", venue: "Nablijfklub, Kantine", city: "Utrecht", tickets: "https://broedutrecht.nl/event/nablijf-klup-broed-editie/?utm_source=ig&utm_medium=social&utm_content=link_in_bios" },
   { date: "2027-01-17", time: "16:30", venue: "Cafe Averechts", city: "Utrecht", type: "akoestisch" },
   { date: "2027-02-05", time: "20:00", venue: "Tivoli Vredenburg", city: "Utrecht", tickets: "https://www.tivolivredenburg.nl/agenda/88615750/broos-05-02-2027", soldOut: true },
-  { date: "2027-06-11", time: "21:00", venue: "Luxor", city: "Arnhem", tickets: "https://www.luxorlive.nl/agenda/broos/" },
+  // { date: "2027-06-05", time: "21:00", venue: "Moira", city: "Utrecht", support: ["Sophie Josephine"], tickets: "tba" },
+  { date: "2027-06-11", time: "19:00", venue: "Luxor", city: "Arnhem", tickets: "https://www.luxorlive.nl/agenda/broos/" },
 ];
 
 // ---------- NEWS (scrolling strip) ----------
