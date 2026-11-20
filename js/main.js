@@ -25,14 +25,18 @@
 const SHOWS = [
   // NOTE: time "21:00" is a PLACEHOLDER on every show, replace with real times.
   { date: "2026-02-15", time: "21:00", venue: "Trapop!", city: "Utrecht" },
-  { date: "2026-04-17", time: "21:00", venue: "Rabo Open Stage @ Tivoli", city: "Utrecht" },
+  { date: "2026-04-17", time: "21:00", venue: "Rabo Open Stage, Tivoli", city: "Utrecht" },
+  { date: "2026-04-21", venue: "de Helling", city: "Utrecht", support: ["Camera Musica"] },
+  { date: "2026-07-31", venue: "Trapop!", city: "Utrecht", support: ["Jeez Louise", "Role Models"] },
+  { date: "2026-09-11", venue: "Teatro", city: "Utrecht", support: ["Deodaat", "Irma", "Roadman", "Feitz"] },
+  { date: "2026-10-04", venue: "Folk Fusion Fest, Moira", city: "Utrecht", support: ["Hayden Rose", "Ash C", "Copper King"] },
   { date: "2026-10-25", time: "21:00", venue: "USBB Festival, de Nijverheid", city: "Utrecht" },
+  { date: "2026-11-01", time: "16:30", venue: "Gigant muziekcafe", city: "Apeldoorn" },
   { date: "2026-11-19", time: "21:30", venue: "Nablijfklub, Kantine", city: "Utrecht", tickets: "https://broedutrecht.nl/event/nablijf-klup-broed-editie/?utm_source=ig&utm_medium=social&utm_content=link_in_bios" },
-  { date: "2027-01-17", time: "16:30", venue: "Cafe Averechts", city: "Utrecht", type: "akoestisch"},
+  { date: "2027-01-17", time: "16:30", venue: "Cafe Averechts", city: "Utrecht", type: "akoestisch" },
   { date: "2027-02-05", time: "20:00", venue: "Tivoli Vredenburg", city: "Utrecht", tickets: "https://www.tivolivredenburg.nl/agenda/88615750/broos-05-02-2027", soldOut: true },
   // { date: "2027-06-05", time: "21:00", venue: "Moira", city: "Utrecht", support: ["Sophie Josephine"], tickets: "tba" },
-  // { date: "2027-06-11", time: "21:00", venue: "Luxor", city: "Arnhem", tickets: "tba"},
-  
+  { date: "2027-06-11", time: "21:00", venue: "Luxor", city: "Arnhem", tickets: "https://www.luxorlive.nl/agenda/broos/" },
 ];
 
 // ---------- NEWS (scrolling strip) ----------
@@ -84,7 +88,7 @@ function showToHTML(show) {
 
   const meta = [esc(show.city), show.time ? `${esc(show.time)} uur` : ""].filter(Boolean).join(" · ");
   const support = show.support && show.support.length
-    ? `<span class="support">+ ${show.support.map(esc).join(", ")}</span>` : "";
+    ? `<span class="support">+ ${show.support.map(esc).join(" + ")}</span>` : "";
   const type = isAcoustic(show)
     ? `<span class="type type--acoustic">Akoestisch</span>`
     : `<span class="type"></span>`;   // full band: no label, only acoustic shows get one
@@ -108,11 +112,12 @@ function showToHTML(show) {
 
 function pastShowToHTML(show) {
   const d = parseDate(show.date);
-  const extra = [isAcoustic(show) ? "akoestisch" : "", ...(show.support || []).map(s => "+ " + s)]
-    .filter(Boolean).map(esc).join(", ");
+  const support = (show.support || []).map(s => "+ " + s).join(" ");
+  const extra = [isAcoustic(show) ? "akoestisch" : "", support]
+    .filter(Boolean).map(esc).join(" · ");
   return `<li>
       <span class="past__date">${d.getDate()} ${MONTHS[d.getMonth()].toLowerCase()} ${d.getFullYear()}</span>
-      <span>${esc(show.venue)}, ${esc(show.city)}${extra ? ` <span class="past__extra">(${extra})</span>` : ""}</span>
+      <span>${esc(show.venue)} · ${esc(show.city)}${extra ? ` <span class="past__extra">(${extra})</span>` : ""}</span>
     </li>`;
 }
 
@@ -147,7 +152,7 @@ function marqueeItems() {
     const d = parseDate(s.date);
     const days = daysFromToday(s.date);
     const when = days === 0 ? "Vanavond" : days === 1 ? "Morgen" : `${d.getDate()} ${MONTHS[d.getMonth()]}`;
-    let text = `${when}: ${s.venue}, ${s.city}`;
+    let text = `${when}: ${s.venue} · ${s.city}`;
     if (isAcoustic(s)) text += " (akoestisch)";
     if (s.soldOut) text += " · uitverkocht";
     items.push({ text, href: "#live" });
@@ -161,7 +166,7 @@ function renderMarquee() {
   const track = strip.querySelector(".marquee__track");
   const setHTML = marqueeItems().map(i =>
     (i.href ? `<a href="${esc(i.href)}"${i.href.startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${esc(i.text)}</a>`
-            : `<span>${esc(i.text)}</span>`) + `<span class="marquee__star" aria-hidden="true">✦</span>`
+            : `<span>${esc(i.text)}</span>`) + `<span class="marquee__star" aria-hidden="true">•</span>`
   ).join("");
 
   function build() {
