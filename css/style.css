@@ -1,8 +1,3 @@
-/* =========================================================
-   BROOS: stylesheet
-   Colors and the font are defined once here as "variables" and
-   reused everywhere, so you can restyle the whole site from this block.
-   ========================================================= */
 :root {
   --red:    #8e0b0b;   /* deep red from the sticker */
   --red-hot:#e0262a;   /* brighter red for accents  */
@@ -31,8 +26,7 @@ img { display: block; max-width: 100%; }
 a { color: inherit; }
 em, i { font-style: normal; }   /* no italics anywhere */
 
-/* Film grain over the whole page: the "gritty" part.
-   It's generated noise (an SVG filter), so no image file is needed. */
+/* Film grain (SVG noise) */
 body::after {
   content: "";
   position: fixed; inset: 0;
@@ -54,7 +48,6 @@ body::after {
   border-bottom: 3px solid transparent;
   transition: background .25s, padding .25s, border-color .25s;
 }
-/* Once you scroll, the bar turns solid so the menu stays readable */
 .nav.is-scrolled {
   background: var(--ink);
   border-bottom-color: var(--red);
@@ -86,11 +79,10 @@ body::after {
 }
 .nav nav a:hover, .nav nav a.is-active { color: var(--blue); }
 .nav nav a:hover::after, .nav nav a.is-active::after { transform: scaleX(1); }
-/* "Boek ons": red letters with a thin blue outline */
 .nav nav a.nav__cta {
   color: var(--red-hot);
   -webkit-text-stroke: 3px var(--blue);
-  paint-order: stroke fill;   /* outline drawn behind the letters, so they stay bold */
+  paint-order: stroke fill;
   transition: color .2s;
 }
 .nav nav a.nav__cta:hover { color: var(--blue); -webkit-text-stroke-color: var(--red-hot); }
@@ -106,7 +98,6 @@ body::after {
 .icon:hover { transform: rotate(-8deg) scale(1.12); color: var(--cream); }
 
 /* ---------- Hero ---------- */
-/* A bit shorter than the screen so the news strip is visible right away */
 .hero {
   position: relative;
   min-height: calc(100svh - 80px);
@@ -119,10 +110,9 @@ body::after {
   width: 100%; height: 100%;
   object-fit: cover;
   z-index: -2;
-  object-position: 42% 40%;  /* keep the band in frame when the screen crops the photo */
+  object-position: 42% 40%;
   filter: saturate(1.3) contrast(1.1);
 }
-/* Dark vignette on top of the photo so the logo pops */
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background:
@@ -185,19 +175,16 @@ body::after {
 .section--bright .title { color: var(--red); }
 .section--dark .title   { color: var(--blue); }
 .section--red .title    { color: var(--blue); }
-/* Hard offset shadow on every big heading: black on light backgrounds,
-   red on the dark ones. The offset scales with the text size (5px on a
-   laptop, about 2px on a phone) so small headings stay crisp and readable. */
+/* Hard offset shadow, scaled to the text size */
 .title { --shadow-offset: clamp(2px, .045em, 5px); }
 .section--bright .title, .section--red .title, .section--blue .title { text-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--ink); }
 .section--dark .title { text-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--red); }
 .lead { font-size: 1.1rem; max-width: 55ch; margin-bottom: 40px; }
 
 /* ---------- Shows (gig calendar) ---------- */
-/* The red panel's top edge runs at the same angle as the news strip
-   (-1.5deg) and tucks just underneath it, so the two connect. */
+/* Top edge follows the -1.5deg angle of the news strip */
 .section--shows {
-  --slant: calc(100vw * 0.02619);   /* tan(1.5deg): height difference across the screen */
+  --slant: calc(100vw * 0.02619);   /* tan(1.5deg) */
   z-index: 1;
   margin-top: calc(var(--slant) / -2 - 20px);
   padding-top: calc(clamp(70px, 10vw, 130px) + var(--slant) / 2 + 20px);
@@ -219,7 +206,6 @@ body::after {
 .show-list .where { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .show-list .venue { font-family: var(--font); font-size: 1.45rem; line-height: 1.1; text-transform: uppercase; }
 .show-list .meta  { font-size: .9rem; opacity: .8; }
-/* Support acts: "+ Name", in blue so they read as "also on the bill" */
 .show-list .support { font-family: var(--font); font-size: 1.05rem; color: var(--blue); }
 .show-list .soon {
   align-self: flex-start;
@@ -227,14 +213,11 @@ body::after {
   background: var(--yellow); color: var(--ink);
   padding: 1px 8px; margin-bottom: 4px;
 }
-/* Only acoustic shows get a label; full-band shows leave this cell empty */
 .show-list .type {
   font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
   white-space: nowrap;
   opacity: .85;
 }
-/* Tickets: no button shape. On hover a blue block wipes in behind the
-   word, the text flips to red and the arrow shoots off to the right. */
 .show-list .tickets {
   font-family: var(--font);
   justify-self: end;
@@ -268,14 +251,12 @@ body::after {
   font-size: 1.35rem; text-transform: uppercase;
   color: var(--blue); padding-inline: 6px;
 }
-/* Ticket sale not started yet: same look as "Gratis", but dimmed */
 .show-list .tba {
   font-family: var(--font);
   justify-self: end;
   font-size: 1.1rem; text-transform: uppercase; white-space: nowrap;
   color: var(--blue); opacity: .6; padding-inline: 6px;
 }
-/* "Sold out" stamp: tilted, like it was slapped on with a rubber stamp */
 .show-list .sold-out {
   font-family: var(--font);
   justify-self: end;
@@ -288,7 +269,7 @@ body::after {
 }
 .show-list .empty { display: block; border: 0; }
 
-/* Past shows: folded away, small and quiet */
+/* Past shows */
 .past-shows { max-width: 1100px; margin: 36px auto 0; font-size: .85rem; }
 .past-shows summary {
   cursor: pointer; width: fit-content;
@@ -319,10 +300,9 @@ body::after {
   margin-bottom: clamp(50px, 7vw, 90px);
 }
 .about__text p { font-size: 1.05rem; margin-bottom: 1em; max-width: 50ch; }
-/* Group photo as a tilted polaroid */
 .polaroid {
   background: var(--cream);
-  padding: 12px 12px 56px; /* thicker bottom edge, like a real polaroid */
+  padding: 12px 12px 56px;
   transform: rotate(-2.5deg);
   box-shadow: 0 14px 34px rgba(0,0,0,.55);
   transition: transform .3s;
@@ -335,7 +315,6 @@ body::after {
   font-size: 1.4rem; text-transform: uppercase; letter-spacing: .05em;
   color: var(--blue); margin-bottom: 18px;
 }
-/* Four per row on a laptop (4 + 3, the last row centered) */
 .members {
   --cols: 4; --gap: 22px;
   display: flex; flex-wrap: wrap; justify-content: center;
@@ -343,7 +322,6 @@ body::after {
 }
 .member { flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols)); }
 .member { cursor: pointer; outline: none; }
-/* Slightly tilted portraits for a more playful look; they straighten on hover/tap */
 .member { transform: rotate(var(--tilt, 0deg)); transition: transform .35s ease; }
 .member:nth-child(4n+1) { --tilt: -2deg; }
 .member:nth-child(4n+2) { --tilt: 1.5deg; }
@@ -368,7 +346,6 @@ body::after {
 .member:hover .member__img img,
 .member:focus .member__img img { transform: scale(1.05); }
 .member:focus-visible .member__img { outline: 3px solid var(--yellow); outline-offset: 3px; }
-/* Introduction text: hidden below the photo, slides up on hover/tap */
 .member__bio {
   position: absolute; left: 0; right: 0; bottom: 0;
   z-index: 1;
@@ -392,14 +369,13 @@ body::after {
 }
 
 /* ---------- Photo wall ---------- */
-/* Rows of photos at equal height that fill the full width. Each photo grows
-   in proportion to its shape (--r = width / height, set in the HTML). */
+/* Justified rows: each photo grows in proportion to its ratio (--r) */
 .section--photos { padding-top: 0; }
 .section--photos .title { text-align: center; }
 .gallery {
   display: flex; flex-wrap: wrap;
   gap: 10px;
-  --row: 230px;        /* rough row height; raise for bigger photos */
+  --row: 230px;
 }
 .gallery img {
   flex: var(--r) 1 calc(var(--r) * var(--row));
@@ -411,7 +387,7 @@ body::after {
   filter: saturate(1.15);
   transition: filter .2s;
 }
-.gallery::after { content: ""; flex: 9999 1 0; }   /* keeps the last row from stretching */
+.gallery::after { content: ""; flex: 9999 1 0; }
 .gallery img:hover { filter: saturate(1.4) brightness(1.08); }
 
 /* ---------- Contact ---------- */
@@ -466,13 +442,12 @@ body::after {
   .gallery { --row: 150px; gap: 6px; }
 }
 @media (max-width: 640px) {
-  .nav__logo span { display: none; }   /* just the diamond on small screens */
+  .nav__logo span { display: none; }
   .nav__logo img { width: 34px; height: 34px; }
   .nav nav a { padding: 6px 6px; font-size: 1rem; }
   .nav nav a::after { left: 6px; right: 6px; }
   .icon svg { width: 21px; height: 21px; }
   .nav nav .icon { padding: 4px; }
-  /* Show rows stack: date | venue on top, type + tickets below */
   .show-list li { grid-template-columns: 4.8em 1fr; gap: 8px 14px; align-items: start; }
   .show-list .date { grid-row: span 2; }
   .show-list .type { grid-column: 2; grid-row: 2; justify-self: start; align-self: center; }
@@ -480,14 +455,12 @@ body::after {
   .past__date { flex-basis: 6.5em; }
   .members { --cols: 2; }
 }
-/* Phones: drop the small logo so the whole menu fits (the big logo is right below) */
 @media (max-width: 430px) {
   .nav__logo { display: none; }
   .nav { justify-content: center; }
   .nav nav a { padding-inline: 5px; font-size: .95rem; }
 }
 
-/* Respect people who turned off animations in their OS */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }

@@ -1,29 +1,17 @@
-// =========================================================
-// BROOS: site script
-// =========================================================
-
 // ---------- SHOWS ----------
-// This list is the only thing you need to edit when you have a new gig.
-// Upcoming shows appear in the calendar AND in the scrolling strip under the
-// header. Once a date has passed, the show moves to "Eerder gespeeld" by
-// itself, so keep old shows in the list: they form your gig history.
+// Upcoming shows appear in the calendar and the news strip. Past shows move
+// to "Eerder gespeeld" automatically, so keep them in the list.
 //
 //   date     "YYYY-MM-DD"                          (required)
 //   venue    name of the venue / event             (required)
 //   city                                           (required)
 //   time     "20:30", start time of BROOS's set    (optional)
-//   type     "band" (default, no label) or "akoestisch" (shown as "Akoestisch")
-//   support  ["Artist A", "Artist B"], other acts on the bill (optional)
-//   tickets  ticket link. No link = shown as "Gratis"
-//            "tba" = ticket sale hasn't started yet, shown as "Tickets t.b.a."
-//   soldOut  true shows an "Uitverkocht" stamp instead of the ticket button
-//
-// Example:
-// { date: "2027-03-12", time: "21:00", venue: "Ekko", city: "Utrecht",
-//   type: "akoestisch", support: ["Sophie Josephine"], tickets: "https://..." },
+//   type     "akoestisch" adds an "Akoestisch" label   (optional)
+//   support  ["Artist A", "Artist B"]                  (optional)
+//   tickets  ticket link; none = "Gratis", "tba" = "Tickets t.b.a."
+//   soldOut  true shows "Uitverkocht"                  (optional)
 
 const SHOWS = [
-  // NOTE: time "21:00" is a PLACEHOLDER on every show, replace with real times.
   { date: "2026-02-15", time: "21:00", venue: "Trapop!", city: "Utrecht" },
   { date: "2026-04-17", time: "21:00", venue: "Rabo Open Stage, Tivoli", city: "Utrecht" },
   { date: "2026-04-21", venue: "de Helling", city: "Utrecht", support: ["Camera Musica"] },
@@ -35,13 +23,11 @@ const SHOWS = [
   { date: "2026-11-19", time: "21:30", venue: "Nablijfklub, Kantine", city: "Utrecht", tickets: "https://broedutrecht.nl/event/nablijf-klup-broed-editie/?utm_source=ig&utm_medium=social&utm_content=link_in_bios" },
   { date: "2027-01-17", time: "16:30", venue: "Cafe Averechts", city: "Utrecht", type: "akoestisch" },
   { date: "2027-02-05", time: "20:00", venue: "Tivoli Vredenburg", city: "Utrecht", tickets: "https://www.tivolivredenburg.nl/agenda/88615750/broos-05-02-2027", soldOut: true },
-  // { date: "2027-06-05", time: "21:00", venue: "Moira", city: "Utrecht", support: ["Sophie Josephine"], tickets: "tba" },
   { date: "2027-06-11", time: "21:00", venue: "Luxor", city: "Arnhem", tickets: "https://www.luxorlive.nl/agenda/broos/" },
 ];
 
 // ---------- NEWS (scrolling strip) ----------
-// Shown first in the strip, followed by the next few shows from SHOWS.
-// `href` is optional and makes the item clickable.
+// Shown before the upcoming shows. `href` is optional.
 const NEWS = [
   { text: "Nieuwe single “Rode Wijn” nu te streamen", href: "https://open.spotify.com/artist/0oiVr79iOP4RkkBZZbMYUB" },
 ];
@@ -91,7 +77,7 @@ function showToHTML(show) {
     ? `<span class="support">+ ${show.support.map(esc).join(" + ")}</span>` : "";
   const type = isAcoustic(show)
     ? `<span class="type type--acoustic">Akoestisch</span>`
-    : `<span class="type"></span>`;   // full band: no label, only acoustic shows get one
+    : `<span class="type"></span>`;   // keeps the grid column for full-band shows
 
   return `<li class="${show.soldOut ? "is-sold-out" : ""}${when ? " is-soon" : ""}">
       <span class="date">
@@ -144,8 +130,8 @@ function renderShows() {
 }
 
 // ---------- marquee ----------
-// Builds one "set" of items, then repeats it until it is wider than the
-// screen, then doubles everything so the loop (move left by 50%) is seamless.
+// One set of items is repeated to fill the screen, then doubled so the
+// -50% scroll animation loops seamlessly.
 function marqueeItems() {
   const items = NEWS.map(n => ({ text: n.text, href: n.href }));
   upcomingShows().slice(0, MARQUEE_SHOWS).forEach(s => {
@@ -170,17 +156,15 @@ function renderMarquee() {
   ).join("");
 
   function build() {
-    // One group, measured, then repeated to fill the screen.
     track.innerHTML = `<div class="marquee__group">${setHTML}</div>`;
     const groupWidth = track.firstElementChild.getBoundingClientRect().width || 1;
     const copies = Math.max(1, Math.ceil(strip.clientWidth / groupWidth));
     const half = Array.from({ length: copies }, () => `<div class="marquee__group">${setHTML}</div>`).join("");
     track.innerHTML = half + half;
-    // Hide the duplicate copies from screen readers and keyboard users
+    // Duplicates are hidden from screen readers and keyboard focus
     track.querySelectorAll(".marquee__group").forEach((g, i) => {
       if (i > 0) { g.setAttribute("aria-hidden", "true"); g.querySelectorAll("a").forEach(a => a.tabIndex = -1); }
     });
-    // Constant speed no matter how long the text is
     track.style.animationDuration = `${(groupWidth * copies) / MARQUEE_SPEED}s`;
   }
 
@@ -189,7 +173,7 @@ function renderMarquee() {
   window.addEventListener("resize", () => {
     if (window.innerWidth !== lastWidth) { lastWidth = window.innerWidth; build(); }
   });
-  // Fonts change the text width, so measure again once they have loaded
+  // Re-measure once web fonts have loaded
   if (document.fonts) document.fonts.ready.then(build);
 }
 
@@ -200,7 +184,7 @@ function setupNav() {
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  // Highlight the menu item of the section you're looking at
+  // Highlight the menu item of the visible section
   const links = [...nav.querySelectorAll("nav a")];
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -221,18 +205,16 @@ function setupLightbox() {
 
   document.querySelectorAll(".gallery img").forEach(img => {
     img.addEventListener("click", () => {
-      big.src = img.dataset.full || img.src;   // load the big version only when clicked
+      big.src = img.dataset.full || img.src;
       big.alt = img.alt;
       box.showModal();
     });
   });
-  // Close on button click or clicking anywhere
   box.addEventListener("click", () => box.close());
 }
 
 // ---------- click tracking (GoatCounter) ----------
-// Counts clicks on ticket links, mail, socials and downloads as "events"
-// in the GoatCounter dashboard. Ticket links are labelled per show.
+// Outbound clicks (tickets per show, mail, socials, downloads) as events.
 function trackingName(a) {
   if (a.dataset.track) return a.dataset.track;
   const href = a.getAttribute("href") || "";
@@ -241,7 +223,7 @@ function trackingName(a) {
   if (href.includes("instagram.com")) return "instagram";
   if (href.includes("spotify.com")) return "spotify";
   if (href.startsWith("http")) return "link: " + new URL(href).hostname;
-  return null;   // links within the page are not counted
+  return null;   // in-page links are not counted
 }
 
 function setupTracking() {

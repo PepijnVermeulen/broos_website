@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BROOS: dromen & dansen </title>
-  <meta name="description" content="BROOS">
+  <title>BROOS: dromen &amp; dansen</title>
+  <meta name="description" content="BROOS: dromen &amp; dansen. Shows, muziek en boekingen.">
 
-  <!-- What shows up when someone shares the link (WhatsApp, Instagram, ...) -->
+  <!-- Link preview -->
   <meta property="og:title" content="BROOS">
-  <meta property="og:description" content=" Dromen & Dansen">
+  <meta property="og:description" content="Dromen &amp; dansen">
   <meta property="og:url" content="https://broos-deband.nl/">
   <meta property="og:type" content="website">
-  <!-- img/og-image.jpg = hero photo with the logo on top, 1200x630 -->
   <meta property="og:image" content="https://broos-deband.nl/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -20,7 +19,6 @@
 
   <link rel="icon" href="img/favicon.png?v=2">
 
-  <!-- Fonts from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -29,7 +27,6 @@
 </head>
 <body>
 
-  <!-- ===================== NAVIGATION ===================== -->
   <header class="nav" id="nav">
     <a href="#top" class="nav__logo" aria-label="BROOS, naar boven">
       <img src="img/logo-diamond.png" alt="" width="40" height="40">
@@ -41,7 +38,7 @@
       <a href="#band">Band</a>
       <span class="socials">
         <a class="icon" href="https://www.instagram.com/broos.deband/" target="_blank" rel="noopener" aria-label="BROOS op Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg></a>
-          <a class="icon" href="https://open.spotify.com/artist/0oiVr79iOP4RkkBZZbMYUB" target="_blank" rel="noopener" aria-label="BROOS op Spotify" title="Spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M6.8 9.4c3.6-1.1 7.4-.8 10.6.9M7.4 12.6c2.9-.8 6-.5 8.6.9M8 15.6c2.3-.6 4.6-.4 6.6.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+        <a class="icon" href="https://open.spotify.com/artist/0oiVr79iOP4RkkBZZbMYUB" target="_blank" rel="noopener" aria-label="BROOS op Spotify" title="Spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M6.8 9.4c3.6-1.1 7.4-.8 10.6.9M7.4 12.6c2.9-.8 6-.5 8.6.9M8 15.6c2.3-.6 4.6-.4 6.6.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
       </span>
       <a href="#contact" class="nav__cta">Boek ons</a>
     </nav>
@@ -49,28 +46,23 @@
 
   <main id="top">
 
-    <!-- ===================== HERO ===================== -->
     <section class="hero">
-      <img class="hero__bg" src="img/hero-2.jpg" alt="BROOS live op het podium voor een vol café">
+      <img class="hero__bg" src="img/hero.jpg" alt="BROOS live">
       <div class="hero__content">
         <img class="hero__logo" src="img/logo-diamond.png" alt="BROOS logo">
       </div>
     </section>
 
-    <!-- ===================== MARQUEE STRIP ===================== -->
-    <!-- Filled in by js/main.js: news items (NEWS) + the next few shows from
-         SHOWS. The script repeats the text until it fills the whole screen. -->
+    <!-- Filled by js/main.js (NEWS + upcoming SHOWS) -->
     <div class="marquee" id="marquee">
       <div class="marquee__track"></div>
     </div>
 
-    <!-- ===================== SHOWS (gig calendar) ===================== -->
     <section id="live" class="section section--red section--shows">
       <div class="container">
         <h2 class="title">Komende shows</h2>
 
-        <!-- Filled in by js/main.js. Edit the SHOWS list there.
-             Shows whose date has passed move to "Eerder gespeeld" by themselves. -->
+        <!-- Filled by js/main.js (SHOWS) -->
         <ul id="shows-upcoming" class="show-list shows"></ul>
 
         <details class="past-shows" id="past-shows" hidden>
@@ -80,39 +72,31 @@
       </div>
     </section>
 
-    <!-- ===================== MUSIC ===================== -->
     <section id="music" class="section section--bright">
       <div class="container music">
         <div class="music__intro">
           <h2 class="title">Muziek</h2>
-          <!-- TODO: link to the Rode Wijn track itself once it's on Spotify -->
           <p class="lead">Nieuwe single “Rode Wijn” nu overal te streamen.</p>
         </div>
         <iframe class="music__player"
           src="https://open.spotify.com/embed/artist/0oiVr79iOP4RkkBZZbMYUB?utm_source=generator&theme=0"
-          height="452" frameborder="0" loading="lazy"
+          height="452" loading="lazy"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           title="BROOS op Spotify"></iframe>
       </div>
     </section>
 
-    <!-- ===================== WIE IS BROOS (about + band members) ===================== -->
-    <!-- Top: group photo + bio. Below: the seven members.
-         Hovering over (or tapping) a card swaps the portrait for a live photo
-         and slides up the short introduction in <p class="member__bio">.
-         tabindex="0" makes the cards tappable on phones and reachable by keyboard. -->
     <section id="band" class="section section--dark">
       <div class="container">
         <div class="about">
           <div class="about__text">
             <h2 class="title">Wie is BROOS?</h2>
-            <!-- TODO: rewrite this bio in your own words -->
             <p>BROOS is wat je krijgt als je zeven muzikanten in een blender gooit en hoopt op het beste.
               Wij maken het leven behapbaar door kwetsbaar te durven zijn en leren jullie en onszelf hoe je blijft dansen als de wereld een puinhoop is.</p>
             <p>Verwacht catchy pophooks, funky grooves, jazzy blazerslijnen en breekbare teksten in een diverse set waar je misschien een traantje wegpinkt.</p>
           </div>
           <figure class="polaroid">
-            <img loading="lazy" src="img/band-group.jpg" alt="De bandleden van BROOS voor een vrachtwagen">
+            <img loading="lazy" src="img/band-group.jpg" alt="BROOS">
           </figure>
         </div>
 
@@ -121,14 +105,14 @@
           <figure class="member" tabindex="0">
             <div class="member__img">
               <img src="img/band/roos-live.jpg" alt="Roos" loading="lazy">
-              <img src="img/live/roos-3.jpg" alt="" class="member__live" loading="lazy">
+              <img src="img/live/live-07.jpg" alt="" class="member__live" loading="lazy">
               <p class="member__bio">Zonder ROOS geen BROOS.</p>
             </div>
             <figcaption>Roos <span>zang</span></figcaption>
           </figure>
           <figure class="member" tabindex="0">
             <div class="member__img">
-              <img src="img/band/pep.jpg" alt="Pep" loading="lazy">
+              <img src="img/band/pep.jpg" alt="Pepijn" loading="lazy">
               <img src="img/band/pep-live.jpg" alt="" class="member__live" loading="lazy">
               <p class="member__bio">El hombre piña.</p>
             </div>
@@ -178,35 +162,25 @@
       </div>
     </section>
 
-
-    <!-- ===================== LIVE PHOTOS ===================== -->
     <section class="section section--dark section--photos">
       <div class="container">
         <h2 class="title title--small">Op het podium</h2>
-        <!-- Photo wall. Click a photo to view it bigger.
-             Small versions live in img/live/thumbs/ (load fast); data-full = the big one.
-             style="--r:..." is the photo's width divided by its height; the rows
-             use it to line every photo up at the same height. -->
+        <!-- --r = width / height of each photo; data-full = large version for the lightbox -->
         <div class="gallery">
-          <img src="img/live/thumbs/usbb-045.jpg" data-full="img/live/usbb-045.jpg" width="760" height="506" style="--r:1.502" alt="De hele band op het podium met publiek" loading="lazy" decoding="async">
-          <img src="img/live/thumbs/rsf-9103.jpg" data-full="img/live/rsf-9103.jpg" width="570" height="760" style="--r:0.750" alt="Roos zingt in een rode jurk" loading="lazy" decoding="async">
-
-          <img src="img/live/thumbs/usbb-042.jpg" data-full="img/live/usbb-042.jpg" width="506" height="760" style="--r:0.666" alt="Stan op gitaar" loading="lazy" decoding="async">
-          <img src="img/live/thumbs/usbb-036.jpg" data-full="img/live/usbb-036.jpg" width="760" height="506" style="--r:1.502" alt="Blazers en zang op USBB Festival" loading="lazy" decoding="async">
-
-          <img src="img/live/thumbs/usbb-blazers.jpg" data-full="img/live/usbb-blazers.jpg" width="760" height="507" style="--r:1.499" alt="Trombone en trompet voor een gele muur terwijl Roos zingt" loading="lazy" decoding="async">
-          <img src="img/live/thumbs/rsf-9107.jpg" data-full="img/live/rsf-9107.jpg" width="570" height="760" style="--r:0.750" alt="Pep op toetsen in paars licht" loading="lazy" decoding="async">
-
-          <img src="img/live/thumbs/roos-3.jpg" data-full="img/live/roos-3.jpg" width="507" height="760" style="--r:0.667" alt="Roos zingt" loading="lazy" decoding="async">
-          <img src="img/live/thumbs/usbb-033.jpg" data-full="img/live/usbb-033.jpg" width="760" height="506" style="--r:1.502" alt="Trombone en trompet" loading="lazy" decoding="async">
-
-          <img src="img/live/thumbs/usbb-038.jpg" data-full="img/live/usbb-038.jpg" width="760" height="506" style="--r:1.502" alt="De blazerssectie" loading="lazy" decoding="async">
-          <img src="img/live/thumbs/rsf-9105.jpg" data-full="img/live/rsf-9105.jpg" width="570" height="760" style="--r:0.750" alt="Trompetsolo" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-01.jpg" data-full="img/live/live-01.jpg" width="760" height="506" style="--r:1.502" alt="BROOS live, foto 1" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-02.jpg" data-full="img/live/live-02.jpg" width="570" height="760" style="--r:0.750" alt="BROOS live, foto 2" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-03.jpg" data-full="img/live/live-03.jpg" width="506" height="760" style="--r:0.666" alt="BROOS live, foto 3" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-04.jpg" data-full="img/live/live-04.jpg" width="760" height="506" style="--r:1.502" alt="BROOS live, foto 4" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-05.jpg" data-full="img/live/live-05.jpg" width="760" height="507" style="--r:1.499" alt="BROOS live, foto 5" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-06.jpg" data-full="img/live/live-06.jpg" width="570" height="760" style="--r:0.750" alt="BROOS live, foto 6" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-07.jpg" data-full="img/live/live-07.jpg" width="507" height="760" style="--r:0.667" alt="BROOS live, foto 7" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-08.jpg" data-full="img/live/live-08.jpg" width="760" height="506" style="--r:1.502" alt="BROOS live, foto 8" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-09.jpg" data-full="img/live/live-09.jpg" width="760" height="506" style="--r:1.502" alt="BROOS live, foto 9" loading="lazy" decoding="async">
+          <img src="img/live/thumbs/live-10.jpg" data-full="img/live/live-10.jpg" width="570" height="760" style="--r:0.750" alt="BROOS live, foto 10" loading="lazy" decoding="async">
         </div>
       </div>
     </section>
 
-    <!-- ===================== CONTACT ===================== -->
     <section id="contact" class="section section--blue">
       <div class="container contact">
         <h2 class="title">Boek BROOS</h2>
@@ -223,23 +197,17 @@
   <footer class="footer">
     <img src="img/logo-square.png" alt="" width="56" height="56" loading="lazy">
     <p>© <span id="year"></span> BROOS. Blijf dansen.</p>
-    <!-- For bookers. The rider PDFs live in website/press/ (presskit: mail link until there is a file) -->
     <p class="footer__press">Voor bookers:
-      <a href="press/broos-technical-rider.pdf" target="_blank">tech rider</a> ·
-      <a href="press/broos-technical-rider-acoustic.pdf" target="_blank">rider akoestisch</a> ·
-      <a href="mailto:broos.deband@gmail.com?subject=Presskit%20BROOS">presskit</a>
+      <a href="mailto:broos.deband@gmail.com?subject=Presskit%20en%20rider%20BROOS">presskit en rider opvragen</a>
     </p>
   </footer>
 
-
-  <!-- Lightbox: the big photo viewer used by the gallery -->
   <dialog id="lightbox" class="lightbox">
-    <img src="" alt="">
+    <img alt="">
     <button aria-label="Sluiten">✕</button>
   </dialog>
 
-  <!-- Visitor stats (GoatCounter): no cookies, no personal data, so no cookie banner needed.
-       Dashboard: https://broos.goatcounter.com -->
+  <!-- Cookieless visitor stats: https://broos.goatcounter.com -->
   <script data-goatcounter="https://broos.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <script src="js/main.js"></script>
 </body>
