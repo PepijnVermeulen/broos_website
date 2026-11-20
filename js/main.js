@@ -83,7 +83,7 @@ function showToHTML(show) {
   if (show.soldOut)      action = `<span class="sold-out">Uitverkocht</span>`;
   else if (String(show.tickets).toLowerCase() === "tba")
                          action = `<span class="tba">Tickets t.b.a.</span>`;
-  else if (show.tickets) action = `<a class="tickets" href="${esc(show.tickets)}" target="_blank" rel="noopener">Tickets <span class="arrow" aria-hidden="true">→</span></a>`;
+  else if (show.tickets) action = `<a class="tickets" data-track="${esc(`tickets: ${show.venue} (${show.city}, ${show.date})`)}" href="${esc(show.tickets)}" target="_blank" rel="noopener">Tickets <span class="arrow" aria-hidden="true">→</span></a>`;
   else                   action = `<span class="free">Gratis</span>`;
 
   const meta = [esc(show.city), show.time ? `${esc(show.time)} uur` : ""].filter(Boolean).join(" · ");
@@ -230,9 +230,33 @@ function setupLightbox() {
   box.addEventListener("click", () => box.close());
 }
 
+// ---------- click tracking (GoatCounter) ----------
+// Counts clicks on ticket links, mail, socials and downloads as "events"
+// in the GoatCounter dashboard. Ticket links are labelled per show.
+function trackingName(a) {
+  if (a.dataset.track) return a.dataset.track;
+  const href = a.getAttribute("href") || "";
+  if (href.startsWith("mailto:")) return "mail";
+  if (href.endsWith(".pdf")) return "download: " + href.split("/").pop();
+  if (href.includes("instagram.com")) return "instagram";
+  if (href.includes("spotify.com")) return "spotify";
+  if (href.startsWith("http")) return "link: " + new URL(href).hostname;
+  return null;   // links within the page are not counted
+}
+
+function setupTracking() {
+  document.addEventListener("click", e => {
+    const a = e.target.closest("a[href]");
+    const name = a && trackingName(a);
+    if (!name || !window.goatcounter || !window.goatcounter.count) return;
+    window.goatcounter.count({ path: name, title: name, event: true });
+  });
+}
+
 // ---------- RUN ----------
 renderShows();
 renderMarquee();
 setupNav();
 setupLightbox();
+setupTracking();
 document.getElementById("year").textContent = new Date().getFullYear();
